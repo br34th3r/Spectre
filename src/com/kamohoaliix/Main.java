@@ -3,6 +3,9 @@ package com.kamohoaliix;
 import city.cs.engine.DebugViewer;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
+import com.kamohoaliix.Controllers.PlayerCollision;
+import com.kamohoaliix.Controllers.PlayerMovement;
+import com.kamohoaliix.Objects.Ground;
 import com.kamohoaliix.Objects.Player;
 
 import javax.swing.*;
@@ -18,10 +21,10 @@ public class Main {
         UserView view = new UserView(world, 500, 500);
 
         // Create a New Player
-        Player player = new Player(100);
+        Player player = new Player(world, 1f, 1.1f, 0f, 0f);
 
-        // Generate New Level
-        GenerateLevel levelGen = new GenerateLevel(world, 5, 3);
+        // Create the Ground
+        Ground ground = new Ground(world, 40f, 1f);
 
         // Initialise the Frame to Contain the View
         JFrame frame = new JFrame("Spectre");
@@ -31,6 +34,10 @@ public class Main {
         frame.add(view);
         frame.pack();
         frame.setVisible(true);
+
+        // Add Event Listeners
+        frame.addKeyListener(new PlayerMovement(player));
+        player.addCollisionListener(new PlayerCollision(player));
 
         // Start the Game
         world.start();

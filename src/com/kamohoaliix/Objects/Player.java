@@ -1,34 +1,43 @@
 package com.kamohoaliix.Objects;
 
-public class Player {
-    private int score;
-    private int level;
+import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 
-    public Player(int score) {
-        this.score = score;
+public class Player extends Walker {
+    private AttachedImage sprite = new AttachedImage(this, new BodyImage("data/Idle__000.png", 2.5f), 1, 0, new Vec2(0, 0));
+
+    public Player(World w, float width, float height, float x, float y) {
+        super(w, new BoxShape(width, height));
+        this.setPosition(new Vec2(x, y));
+        this.addImage(this.sprite.getBodyImage());
     }
 
-    public void addScore(int value) {
-        this.score = this.score + value;
-    }
+    @Override
+    public void startWalking(float speed) {
+        super.startWalking(speed);
+        this.removeAllImages();
+        AttachedImage img = new AttachedImage(this, new BodyImage("data/Run__000.png", 2.5f), 1, 0, new Vec2(0, 0));
 
-    public void removeScore(int value) {
-        this.score = this.score - value;
-    }
-
-    public int getScore() {
-        return this.score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public boolean isDead() {
-        if(this.score < 0) {
-            return true;
-        } else {
-            return false;
+        if(speed < 0) {
+            img.flipHorizontal();
         }
+    }
+
+    @Override
+    public void stopWalking() {
+        super.stopWalking();
+        this.removeAllImages();
+        this.addImage(this.sprite.getBodyImage());
+    }
+
+    @Override
+    public void jump(float speed) {
+        super.jump(speed);
+        this.removeAllImages();
+        AttachedImage img = new AttachedImage(this, new BodyImage("data/Jump__000.png", 2.5f), 1, 0, new Vec2(0, 0));
+    }
+
+    public AttachedImage getIdleSprite() {
+        return this.sprite;
     }
 }
