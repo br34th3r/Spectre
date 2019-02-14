@@ -15,7 +15,7 @@ public class Node extends StaticBody {
 
     public Node(World world, UserView view, float x, float y, float radius) {
         super(world, new CircleShape(radius));
-        this.sprite = new AttachedImage(this, new BodyImage("data/NODES/node.png"), 2, 0, new Vec2(0, 0));
+        this.sprite = new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 2, 0, new Vec2(0, 0));
         this.world = world;
         this.view = view;
         this.x = x;
@@ -39,11 +39,11 @@ public class Node extends StaticBody {
 
     public void deselect() {
         this.removeAllImages();
-        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/node.png"), 2, 0, new Vec2(0, 0)));
+        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 2, 0, new Vec2(0, 0)));
     }
 
     public void select() {
         this.removeAllImages();
-        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/selectedNode.png"), 2, 0, new Vec2(0, 0)));
+        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/greenNode.png"), 2, 0, new Vec2(0, 0)));
     }
 }

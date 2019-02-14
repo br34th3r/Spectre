@@ -63,4 +63,9 @@ public class ConnectionHandler {
         }
     }
 
+    public void removeLastNode() {
+        Connection toBeRemoved = this.connections.pop();
+        toBeRemoved.destroy();
+    }
+
 }

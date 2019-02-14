@@ -4,6 +4,7 @@ import city.cs.engine.DebugViewer;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
 import com.kamohoaliix.Controllers.ConnectionHandler;
+import com.kamohoaliix.Controllers.ConnectionKeyHandler;
 import com.kamohoaliix.Controllers.NodeClickListener;
 import com.kamohoaliix.Controllers.NodeHandler;
 
@@ -18,6 +19,7 @@ public class Main {
         ConnectionHandler connHandler = new ConnectionHandler(world, nodeGen);
         JFrame frame = new JFrame("Spectre");
         frame.addMouseListener(new NodeClickListener(world, nodeGen, connHandler));
+        frame.addKeyListener(new ConnectionKeyHandler(world, connHandler, nodeGen));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.add(view);
