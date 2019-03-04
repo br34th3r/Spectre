@@ -12,8 +12,9 @@ public class Node extends StaticBody {
     private float x;
     private float y;
     private float radius;
+    public String color;
 
-    public Node(World world, UserView view, float x, float y, float radius) {
+    public Node(World world, UserView view, float x, float y, float radius, String color) {
         super(world, new CircleShape(radius));
         this.sprite = new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 2, 0, new Vec2(0, 0));
         this.world = world;
@@ -22,6 +23,7 @@ public class Node extends StaticBody {
         this.y = y;
         this.radius = radius;
         this.setPosition(new Vec2(x, y));
+        this.color = color;
     }
 
     public boolean containsPosition(Point point) {
@@ -33,17 +35,11 @@ public class Node extends StaticBody {
         }
     }
 
+    public void handleSpriteColor() {
+
+    }
+
     public void setSprite(AttachedImage sprite) {
         this.sprite = sprite;
-    }
-
-    public void deselect() {
-        this.removeAllImages();
-        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 2, 0, new Vec2(0, 0)));
-    }
-
-    public void select() {
-        this.removeAllImages();
-        this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/greenNode.png"), 2, 0, new Vec2(0, 0)));
     }
 }

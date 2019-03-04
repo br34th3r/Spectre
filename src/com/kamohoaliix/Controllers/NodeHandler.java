@@ -5,7 +5,7 @@ import city.cs.engine.World;
 import com.kamohoaliix.Objects.Connection;
 import com.kamohoaliix.Objects.Node;
 
-import java.util.LinkedList;
+import java.awt.*;
 import java.util.Random;
 
 public class NodeHandler {
@@ -18,13 +18,15 @@ public class NodeHandler {
     private Connection[] connections;
     private Node[] nodeArray;
     private Random rand;
+    private int currentColor;
+    private String[] colors = {"RED", "GREEN", "BLUE", "PURPLE", "ORANGE", "YELLOW"};
 
 
     public NodeHandler(World world, UserView view) {
         this.world = world;
         this.view = view;
-        this.nodeCount = 4;
-        this.colorCount = 3;
+        this.nodeCount = 3;
+        this.colorCount = 4;
         this.arrCount = this.colorCount * this.nodeCount;
         this.nodeArray = new Node[this.arrCount];
         this.connectionCount = this.arrCount - this.colorCount;
@@ -36,7 +38,7 @@ public class NodeHandler {
     }
 
     private Node newNode() {
-        return new Node(this.world, this.view, this.newNodePosition(), this.newNodePosition(), 0.7f);
+        return new Node(this.world, this.view, this.newNodePosition(), this.newNodePosition(), 0.7f, this.colors[this.currentColor]);
     }
 
     private Node generateNewNode() {
@@ -51,8 +53,17 @@ public class NodeHandler {
     }
 
     public void newGeneration() {
+        int nodesOfColor = 0;
         for(int i = this.arrCount - 1; i >= 0; i--) {
             this.nodeArray[i] = this.generateNewNode();
+            nodesOfColor = nodesOfColor + 1;
+            if(nodesOfColor == this.colorCount) {
+                nodesOfColor = 0;
+                this.currentColor = this.currentColor + 1;
+            }
+        }
+        for(Node node : nodeArray) {
+            System.out.println(node.color);
         }
     }
 

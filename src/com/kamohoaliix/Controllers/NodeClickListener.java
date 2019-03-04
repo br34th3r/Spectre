@@ -4,6 +4,7 @@ import city.cs.engine.AttachedImage;
 import city.cs.engine.BodyImage;
 import city.cs.engine.World;
 import com.kamohoaliix.Objects.Node;
+import com.kamohoaliix.Objects.Selector;
 import org.jbox2d.common.Vec2;
 
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,7 @@ public class NodeClickListener extends MouseAdapter {
     private NodeHandler nodeHandler;
     private ConnectionHandler connectionHandler;
     private Node selectedNode;
+    private Selector selector;
 
     public NodeClickListener(World world, NodeHandler nodeHandler, ConnectionHandler connectionHandler) {
         this.world = world;
@@ -23,19 +25,19 @@ public class NodeClickListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        boolean inNode = false;
         for(Node node : nodeHandler.getNodeArray()) {
             if(node.containsPosition(e.getPoint())) {
                 if(this.selectedNode != null && this.selectedNode != node) {
                     this.connectionHandler.createConnection(this.selectedNode, node);
-                    this.selectedNode.deselect();
+                    this.selector.destroy();
                     this.selectedNode = null;
                 } else if(this.selectedNode != null && this.selectedNode == node) {
-                    this.selectedNode.deselect();
+                    this.selector.destroy();
                     this.selectedNode = null;
                 } else {
                     this.selectedNode = node;
-                    this.selectedNode.select();
+                    this.selector = new Selector(world);
+                    this.selector.setPosition(node.getPosition());
                 }
             }
         }
