@@ -1,6 +1,7 @@
 package com.kamohoaliix.Objects;
 
 import city.cs.engine.*;
+import com.kamohoaliix.Values.NodeColor;
 import org.jbox2d.common.Vec2;
 
 import java.awt.*;
@@ -12,18 +13,16 @@ public class Node extends StaticBody {
     private float x;
     private float y;
     private float radius;
-    public String color;
+    private NodeColor color;
 
-    public Node(World world, UserView view, float x, float y, float radius, String color) {
+    public Node(World world, UserView view, float x, float y, float radius) {
         super(world, new CircleShape(radius));
-        this.sprite = new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 2, 0, new Vec2(0, 0));
         this.world = world;
         this.view = view;
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.setPosition(new Vec2(x, y));
-        this.color = color;
     }
 
     public boolean containsPosition(Point point) {
@@ -35,11 +34,43 @@ public class Node extends StaticBody {
         }
     }
 
-    public void handleSpriteColor() {
+    public void spriteColorHandler(NodeColor color) {
+        switch(color) {
+            case red:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            case blue:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/blueNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            case green:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/greenNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            case orange:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/orangeNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            case purple:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/purpleNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            case yellow:
+                this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/yellowNode.png"), 1, 0, new Vec2(0, 0)));
+                break;
+            default:
+                this.removeAllImages();
+                break;
 
+        }
     }
 
     public void setSprite(AttachedImage sprite) {
         this.sprite = sprite;
+    }
+
+    public NodeColor getColor() {
+        return this.color;
+    }
+
+    public void setColor(NodeColor color) {
+        this.color = color;
+        this.spriteColorHandler(color);
     }
 }

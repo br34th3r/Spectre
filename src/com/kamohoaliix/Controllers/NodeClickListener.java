@@ -25,13 +25,13 @@ public class NodeClickListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        for(Node node : nodeHandler.getNodeArray()) {
-            if(node.containsPosition(e.getPoint())) {
-                if(this.selectedNode != null && this.selectedNode != node) {
-                    this.connectionHandler.createConnection(this.selectedNode, node);
+        for (Node node : nodeHandler.getNodeArray()) {
+            if (node.containsPosition(e.getPoint())) {
+                if (this.selectedNode != null && this.selectedNode != node && this.selectedNode.getColor() == node.getColor()) {
+                    this.connectionHandler.createConnection(this.selectedNode, node, this.selectedNode.getColor());
                     this.selector.destroy();
                     this.selectedNode = null;
-                } else if(this.selectedNode != null && this.selectedNode == node) {
+                } else if ((this.selectedNode != null && this.selectedNode == node) || (this.selectedNode != null && this.selectedNode != node && this.selectedNode.getColor() != node.getColor())) {
                     this.selector.destroy();
                     this.selectedNode = null;
                 } else {

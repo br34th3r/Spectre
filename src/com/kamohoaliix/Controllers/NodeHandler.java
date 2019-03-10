@@ -1,97 +1,91 @@
 package com.kamohoaliix.Controllers;
 
+import city.cs.engine.StaticBody;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
 import com.kamohoaliix.Objects.Connection;
 import com.kamohoaliix.Objects.Node;
+import com.kamohoaliix.Objects.PowerUp;
+import com.kamohoaliix.Values.NodeColor;
 
 import java.awt.*;
 import java.util.Random;
 
-public class NodeHandler {
+public class NodeHandler implements PositionalGenerator {
     private World world;
     private UserView view;
-    private int nodeCount;
-    private int colorCount;
+    private PowerUpHandler powerUpHandler;
+    private int nodesOfEachColor = 3;
+    private int colorCount = 4;
     private int arrCount;
-    private int connectionCount;
-    private Connection[] connections;
+    private int currentNodesInColor = 1;
     private Node[] nodeArray;
-    private Random rand;
-    private int currentColor;
-    private String[] colors = {"RED", "GREEN", "BLUE", "PURPLE", "ORANGE", "YELLOW"};
+    private int currentColor = 0;
+    private Node currentNewNode;
 
 
     public NodeHandler(World world, UserView view) {
         this.world = world;
         this.view = view;
-        this.nodeCount = 3;
-        this.colorCount = 4;
-        this.arrCount = this.colorCount * this.nodeCount;
+        this.arrCount = this.colorCount * this.nodesOfEachColor;
         this.nodeArray = new Node[this.arrCount];
-        this.connectionCount = this.arrCount - this.colorCount;
-        this.rand = new Random();
     }
 
-    private float newNodePosition() {
-        return this.rand.nextFloat() * 20 - 10;
+
+    @Override
+    public float newPosition() {
+        return this.rand.nextFloat() * 18 - 10;
     }
 
-    private Node newNode() {
-        return new Node(this.world, this.view, this.newNodePosition(), this.newNodePosition(), 0.7f, this.colors[this.currentColor]);
+    @Override
+    public Node newObject() {
+        return new Node(this.world, this.view, this.newPosition(), this.newPosition(), 0.7f);
     }
 
-    private Node generateNewNode() {
-        Node newNode = this.newNode();
+    @Override
+    public Node generateNewObject() {
+        this.currentNewNode = this.newObject();
         for(Node checkNode : this.nodeArray) {
-            if(checkNode != null && checkNode.intersects(newNode)) {
-                newNode.destroy();
-                newNode = this.generateNewNode();
+            if(checkNode != null && checkNode.intersects(this.currentNewNode)) {
+                this.currentNewNode.destroy();
+                this.currentNewNode = this.generateNewObject();
             }
         }
-        return newNode;
+        return this.currentNewNode;
     }
 
+    @Override
     public void newGeneration() {
-        int nodesOfColor = 0;
         for(int i = this.arrCount - 1; i >= 0; i--) {
-            this.nodeArray[i] = this.generateNewNode();
-            nodesOfColor = nodesOfColor + 1;
-            if(nodesOfColor == this.colorCount) {
-                nodesOfColor = 0;
-                this.currentColor = this.currentColor + 1;
+            this.nodeArray[i] = this.generateNewObject();
+            this.nodeArray[i].setColor(this.getNextColor());
+        }
+    }
+
+    public NodeColor getNextColor() {
+        int placeHolderCNIC = this.currentNodesInColor;
+        NodeColor color = NodeColor.values()[this.currentColor];
+        if(placeHolderCNIC >= this.nodesOfEachColor) {
+            this.currentNodesInColor = 1;
+            this.currentColor++;
+        } else {
+            this.currentNodesInColor++;
+        }
+        return color;
+    }
+
+    public void resetNodeArray() {
+        this.currentNodesInColor = 1;
+        this.currentColor = 0;
+        for(Node node : this.nodeArray) {
+            if(node != null) {
+                node.destroy();
             }
         }
-        for(Node node : nodeArray) {
-            System.out.println(node.color);
-        }
-    }
-
-    public int getNodeCount() {
-        return this.nodeCount;
-    }
-
-    public int getColorCount() {
-        return this.colorCount;
-    }
-
-    public int getArrCount() {
-        return this.arrCount;
+        this.nodeArray = new Node[this.arrCount];
     }
 
     public Node[] getNodeArray() {
         return this.nodeArray;
-    }
-
-    public void setNodeCount(int nodeCount) {
-        this.nodeCount = nodeCount;
-    }
-
-    public void setColorCount(int colorCount) {
-        this.colorCount = colorCount;
-    }
-
-    public void setArrCount(int arrCount) {
-        this.arrCount = arrCount;
     }
 }
