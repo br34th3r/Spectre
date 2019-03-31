@@ -1,11 +1,10 @@
 package com.kamohoaliix.Controllers;
 
 import com.kamohoaliix.Environment.CustomWorld;
-import com.kamohoaliix.Objects.Connection;
-import com.kamohoaliix.Objects.Node;
 import com.kamohoaliix.Objects.Player;
-import com.kamohoaliix.Objects.PowerUp;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -28,45 +27,54 @@ public class SaveLoadController {
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileName);
-            writer.write(this.player.getScore());
-            writer.write(this.player.getRegens());
-            writer.write(this.world.getLevelCount());
-            writer.write(this.world.getNodeHandler().getColorCount());
-            writer.write(this.world.getNodeHandler().getNodesOfEachColor());
-            for(Node node : this.world.getNodeHandler().getNodeArray()) {
-                writer.write("-");
-                writer.write("" + node.getX());
-                writer.write("" + node.getY());
-                writer.write("" + node.getRadius());
-                writer.write(node.getColor().toString());
-                writer.write("" + node.getConnections());
-            }
-            writer.write("-");
-            for(Connection conn : this.world.getConnectionHandler().getConnections()) {
-                writer.write("-");
-                writer.write("" + conn.getWidth());
-                writer.write("" + conn.getHeight());
-                writer.write("" + conn.getCenterX());
-                writer.write("" + conn.getCenterY());
-                writer.write("" + conn.getAngle());
-                writer.write(conn.getConnectedNodes()[0].getX() + "," + conn.getConnectedNodes()[0].getY());
-                writer.write(conn.getConnectedNodes()[1].getX() + "," + conn.getConnectedNodes()[1].getY());
-                writer.write(conn.getColor().toString());
-            }
-            writer.write("-");
-            for(PowerUp powerUp : this.world.getPowerUpHandler().getPowerUpArray()) {
-                writer.write("-");
-                writer.write("" + powerUp.getX());
-                writer.write("" + powerUp.getY());
-                writer.write("" + powerUp.getRadius());
-                writer.write("" + powerUp.getType());
-            }
+            writer.write(player.getRegens() + "\n");
+            writer.write(player.getScore() + "\n");
+            writer.write(Integer.toString(world.getLevelCount()));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (writer != null) {
                 writer.close();
             }
+        }
+    }
+
+    public void loadFile(String fileName) {
+        try {
+            FileReader fr = null;
+            BufferedReader reader = null;
+            try {
+                int count = 0;
+                fr = new FileReader(fileName);
+                reader = new BufferedReader(fr);
+                String line = reader.readLine();
+                while (line != null) {
+                    switch (count) {
+                        case 0:
+                            this.player.setRegens(Integer.parseInt(line));
+                            break;
+                        case 1:
+                            this.player.setScore(Integer.parseInt(line));
+                            break;
+                        case 2:
+                            this.world.setLevelCount(Integer.parseInt(line));
+                            break;
+                        default:
+                            System.out.println("There's been a horrible misunderstanding");
+                    }
+                    count++;
+                    line = reader.readLine();
+                }
+            } finally {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

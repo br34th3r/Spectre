@@ -33,6 +33,14 @@ public class Player {
         this.score = 500;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setRegens(int regens) {
+        this.regens = regens;
+    }
+
     public boolean isDead() {
         if(this.getScore() <= 0) {
             return true;

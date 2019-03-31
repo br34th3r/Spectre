@@ -97,6 +97,10 @@ public class CustomWorld extends World {
         return this.volume;
     }
 
+    public void setLevelCount(int levelCount) {
+        this.levelCount = levelCount;
+    }
+
     public void setVolume(double vol) {
         this.volume = vol;
         this.gameMusic.setVolume(vol);

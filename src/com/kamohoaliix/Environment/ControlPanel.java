@@ -15,12 +15,13 @@ public class ControlPanel extends JPanel implements ChangeListener {
     private JButton addColorButton;
     private JButton removeColorButton;
     private JButton saveButton;
+    private JButton loadButton;
     private JPanel volumePanel;
     private JButton volumeUp;
     private JButton volumeDown;
 
     public ControlPanel(CustomWorld world, Player player, NodeHandler nodeHandler) {
-        super(new GridLayout(6, 1));
+        super(new GridLayout(7, 1));
         this.addColorButton = new JButton("Add Color");
         this.addColorButton.addActionListener(new AddColorListener(world, player, nodeHandler));
 
@@ -36,6 +37,9 @@ public class ControlPanel extends JPanel implements ChangeListener {
         this.saveButton = new JButton("Save Current State");
         this.saveButton.addActionListener(new SaveListener(world, player));
 
+        this.loadButton = new JButton("Load State from File");
+        this.loadButton.addActionListener(new LoadListener(world, player));
+
         this.volumePanel = new JPanel(new GridLayout(1, 2));
         this.volumeUp = new JButton("Sound +");
         this.volumeUp.addActionListener(new VolumeUpListener(world));
@@ -49,6 +53,7 @@ public class ControlPanel extends JPanel implements ChangeListener {
         this.add(this.regenButton).setFocusable(false);
         this.add(this.volumePanel).setFocusable(false);
         this.add(this.saveButton).setFocusable(false);
+        this.add(this.loadButton).setFocusable(false);
         this.add(this.quitButton).setFocusable(false);
     }
 
