@@ -54,7 +54,32 @@ public class Connection extends StaticBody {
         }
     }
 
+    public void removeNodeConnections() {
+        this.connectedNodes[0].removeConnection();
+        this.connectedNodes[1].removeConnection();
+    }
+
     public NodeColor getColor() {
         return this.color;
+    }
+
+    public float getCenterX() {
+        return this.centerPos.x;
+    }
+
+    public float getCenterY() {
+        return this.centerPos.y;
+    }
+
+    public float getWidth() {
+        return this.width;
+    }
+
+    public float getHeight() {
+        return this.height;
+    }
+
+    public Node[] getConnectedNodes() {
+        return this.connectedNodes;
     }
 }

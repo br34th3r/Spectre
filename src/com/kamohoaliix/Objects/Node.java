@@ -14,6 +14,7 @@ public class Node extends StaticBody {
     private float y;
     private float radius;
     private NodeColor color;
+    private int connections;
 
     public Node(World world, UserView view, float x, float y, float radius) {
         super(world, new CircleShape(radius));
@@ -23,6 +24,7 @@ public class Node extends StaticBody {
         this.y = y;
         this.radius = radius;
         this.setPosition(new Vec2(x, y));
+        this.connections = 0;
     }
 
     public boolean containsPosition(Point point) {
@@ -72,5 +74,37 @@ public class Node extends StaticBody {
     public void setColor(NodeColor color) {
         this.color = color;
         this.spriteColorHandler(color);
+    }
+
+    public void addConnection() {
+        this.connections += 1;
+    }
+
+    public void removeConnection() {
+        this.connections -= 1;
+    }
+
+    public boolean isConnected() {
+        if(this.connections > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public float getX() {
+        return this.x;
+    }
+
+    public float getY() {
+        return this.y;
+    }
+
+    public float getRadius() {
+        return this.radius;
+    }
+
+    public float getConnections() {
+        return this.connections;
     }
 }

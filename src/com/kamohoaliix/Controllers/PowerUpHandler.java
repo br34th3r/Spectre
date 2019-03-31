@@ -5,7 +5,10 @@ import city.cs.engine.World;
 import com.kamohoaliix.Objects.Node;
 import com.kamohoaliix.Objects.Player;
 import com.kamohoaliix.Objects.PowerUp;
+import com.kamohoaliix.Objects.PowerUps.ClearRegens;
 import com.kamohoaliix.Objects.PowerUps.ExtraPoints;
+
+import java.util.Random;
 
 public class PowerUpHandler implements PositionalGenerator {
     private World world;
@@ -15,6 +18,7 @@ public class PowerUpHandler implements PositionalGenerator {
     private PowerUp currentNewPowerup;
     private int powerUpCount = 3;
     private PowerUp[] powerUpArray;
+    private Random rand = new Random();
 
     public PowerUpHandler(World world, UserView view, NodeHandler nodeGen, Player player) {
         this.world = world;
@@ -26,21 +30,29 @@ public class PowerUpHandler implements PositionalGenerator {
 
     @Override
     public float newPosition() {
-        return this.rand.nextFloat() * 15 - 10;
+        return this.rand.nextFloat() * 10 - 5;
     }
 
     @Override
     public PowerUp newObject() {
-        return new PowerUp(this.world, this.view, this.newPosition(), this.newPosition(), 0.5f, this.player);
+        return new PowerUp(this.world, this.view, this.newPosition(), this.newPosition(), 0.5f, this.player, null);
     }
 
     public ExtraPoints newExtraPoints() {
         return new ExtraPoints(this.world, this.view, this.newPosition(), this.newPosition(), 0.5f, this.player);
     }
 
+    public ClearRegens newClearRegens() {
+        return new ClearRegens(this.world, this.view, this.newPosition(), this.newPosition(), 0.5f, this.player);
+    }
+
     @Override
     public PowerUp generateNewObject() {
-        this.currentNewPowerup = this.newExtraPoints();
+        if(this.rand.nextBoolean()) {
+            this.currentNewPowerup = this.newExtraPoints();
+        } else {
+            this.currentNewPowerup = this.newClearRegens();
+        }
         for(PowerUp checkPowerup : this.powerUpArray) {
             if(checkPowerup != null && checkPowerup.intersects(this.currentNewPowerup)) {
                 this.currentNewPowerup.destroy();

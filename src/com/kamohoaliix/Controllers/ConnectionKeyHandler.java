@@ -1,6 +1,7 @@
 package com.kamohoaliix.Controllers;
 
 import city.cs.engine.World;
+import com.kamohoaliix.Objects.Connection;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,7 +21,9 @@ public class ConnectionKeyHandler extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         if(code == KeyEvent.VK_BACK_SPACE) {
-            this.connectionHandler.removeLastNode();
+            Connection removing = this.connectionHandler.removeLastNode();
+            removing.removeNodeConnections();
+            removing.destroy();
         }
     }
 

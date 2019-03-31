@@ -1,16 +1,20 @@
 package com.kamohoaliix;
 
-import city.cs.engine.World;
+import city.cs.engine.SoundClip;
 import com.kamohoaliix.Controllers.*;
 import com.kamohoaliix.Environment.ControlPanel;
-import com.kamohoaliix.Environment.CustomView;
 import com.kamohoaliix.Environment.CustomWorld;
 import com.kamohoaliix.Objects.Player;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Main {
+    public static SoundClip gameMusic;
+
     public static void main(String[] args) {
 
         // Create a Player Object to Store all Player Data
@@ -33,7 +37,7 @@ public class Main {
         frame.setResizable(false);
 
         // Add a New Control Panel Instance
-        frame.add(new ControlPanel(world), BorderLayout.SOUTH);
+        frame.add(new ControlPanel(world, player, world.getNodeHandler()), BorderLayout.EAST);
         frame.pack();
 
         // Add the CustomView to the Frame
