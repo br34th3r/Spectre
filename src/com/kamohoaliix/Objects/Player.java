@@ -1,12 +1,19 @@
 package com.kamohoaliix.Objects;
 
 /**
- * Player class to store all important player
- * information such as score and number of regens.
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       2.0.0
  */
 public class Player {
     // Define score and regens variables
+    /**
+     * The player's score
+     */
     private int score;
+    /**
+     * The number of regens the player has left
+     */
     private int regens;
 
     /**
@@ -15,6 +22,7 @@ public class Player {
      */
     public Player() {
         this.score = 500;
+        this.regens = 3;
     }
 
     /**
@@ -37,23 +45,23 @@ public class Player {
     /**
      * Add a regen to the player
      */
-    public void addRegen() {
-        this.regens = this.regens + 1;
+    public void removeRegen() {
+        this.regens = this.regens - 1;
     }
 
     /**
      * Get the number of regens the player has used.
-     * @return
+     * @return integer value of the number of regens.
      */
     public int getRegens() {
         return this.regens;
     }
 
     /**
-     * Reset the number of regens to 0
+     * Reset the number of regens to 3.
      */
     public void resetRegens() {
-        this.regens = 0;
+        this.regens = 3;
     }
 
     /**
@@ -84,7 +92,7 @@ public class Player {
      * @return boolean true if player is dead and false if not.
      */
     public boolean isDead() {
-        if(this.getScore() <= 0) {
+        if(this.getScore() <= 0 || this.getRegens() <= 0) {
             return true;
         } else {
             return false;

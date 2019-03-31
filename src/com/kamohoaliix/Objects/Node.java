@@ -7,18 +7,43 @@ import org.jbox2d.common.Vec2;
 import java.awt.*;
 
 /**
- * Node class that renders an individual node on the screen
- * and handles it's color, position and connections.
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       1.0.0
  */
 public class Node extends StaticBody {
     // Define fields for world, view, sprite, x, y, radius, color and connections
+    /**
+     * The world this object affects
+     */
     private World world;
+    /**
+     * The custom view object in which the world is displayed
+     */
     private UserView view;
+    /**
+     * The sprite for this Node object
+     */
     private AttachedImage sprite;
+    /**
+     * The node's x position
+     */
     private float x;
+    /**
+     * The node's y position
+     */
     private float y;
+    /**
+     * The node's radius
+     */
     private float radius;
+    /**
+     * The node's color
+     */
     private NodeColor color;
+    /**
+     * The number of connections that this node has
+     */
     private int connections;
 
     /**
@@ -64,7 +89,9 @@ public class Node extends StaticBody {
      * @param color enum value of the current Node's color.
      */
     public void spriteColorHandler(NodeColor color) {
+        // Gets the Enum Value
         switch(color) {
+            // Checks in case of red and sets the sprite to the redNode.png image
             case red:
                 this.setSprite(new AttachedImage(this, new BodyImage("data/NODES/redNode.png"), 1, 0, new Vec2(0, 0)));
                 break;
@@ -98,23 +125,43 @@ public class Node extends StaticBody {
         this.sprite = sprite;
     }
 
+    /**
+     * Getter method to return the Node's color.
+     * @return enum value of NodeColor
+     */
     public NodeColor getColor() {
         return this.color;
     }
 
+    /**
+     * Directly sets the color of the Node and then
+     * runs the spriteColorHandler method to reset
+     * the Node sprite.
+     * @param color the new color to set as the Node's color.
+     */
     public void setColor(NodeColor color) {
         this.color = color;
         this.spriteColorHandler(color);
     }
 
+    /**
+     * add a connection this Node.
+     */
     public void addConnection() {
         this.connections += 1;
     }
 
+    /**
+     * Remove a connection from this Node.
+     */
     public void removeConnection() {
         this.connections -= 1;
     }
 
+    /**
+     * Check is the number of connections is greater than 0.
+     * @return boolena true if there are more than 0 connections, false otherwise.
+     */
     public boolean isConnected() {
         if(this.connections > 0) {
             return true;
@@ -123,18 +170,34 @@ public class Node extends StaticBody {
         }
     }
 
+    /**
+     * Getter to return the Node's x position.
+     * @return float x position.
+     */
     public float getX() {
         return this.x;
     }
 
+    /**
+     * Getter to return the Node's y position.
+     * @return float y position.
+     */
     public float getY() {
         return this.y;
     }
 
+    /**
+     * Getter to return the Node's radius (meters).
+     * @return float Node radius (meters).
+     */
     public float getRadius() {
         return this.radius;
     }
 
+    /**
+     * Getter to return the number of Node connections.
+     * @return integer number of connections on the Node.
+     */
     public float getConnections() {
         return this.connections;
     }

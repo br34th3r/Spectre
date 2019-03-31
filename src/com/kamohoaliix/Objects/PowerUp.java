@@ -5,17 +5,40 @@ import com.kamohoaliix.Values.PowerUps;
 import org.jbox2d.common.Vec2;
 
 /**
- * General PowerUp superclass that then is extended by the individual PowerUp objects.
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       2.0.0
  */
 public class PowerUp extends StaticBody {
 
     // Define variables for world, view, x, y, radius and player
+    /**
+     * The world this object affects
+     */
     private World world;
+    /**
+     * The custom view object in which the world is displayed
+     */
     private UserView view;
+    /**
+     * The PowerUp's x position
+     */
     private float x;
+    /**
+     * The PowerUp's y position
+     */
     private float y;
+    /**
+     * The PowerUp's radius
+     */
     private float radius;
+    /**
+     * The player this object affects
+     */
     private Player player;
+    /**
+     * The PowerUp's type based on the PowerUps enum values, either points or regens
+     */
     private PowerUps type;
 
     /**
@@ -54,6 +77,7 @@ public class PowerUp extends StaticBody {
 
     /**
      * Returns the player that this powerup effects (in case of future multiplayer implementation)
+     * @return the player this PowerUp affects as a Player object.
      */
     public Player getPlayer() {
         return this.player;

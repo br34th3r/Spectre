@@ -11,16 +11,43 @@ import com.kamohoaliix.Objects.PowerUps.ExtraPoints;
 import java.util.Random;
 
 /**
- * Handles the generation and storage of PowerUp objects of all types.
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       2.0.0
  */
 public class PowerUpHandler implements PositionalGenerator {
+    // Define fields required for PowerUp handler
+    /**
+     * The world this object affects
+     */
     private World world;
+    /**
+     * The custom view object in which the world is displayed
+     */
     private UserView view;
+    /**
+     * The NodeHandler object that handles node generation and storage
+     */
     private NodeHandler nodeGen;
+    /**
+     * The player this object affects
+     */
     private Player player;
+    /**
+     * The new power up that has just been generated
+     */
     private PowerUp currentNewPowerup;
+    /**
+     * The number of power ups to generate
+     */
     private int powerUpCount = 3;
+    /**
+     * The array of generated power ups
+     */
     private PowerUp[] powerUpArray;
+    /**
+     * Random to be used to generate new random values
+     */
     private Random rand = new Random();
 
     /**
@@ -89,23 +116,33 @@ public class PowerUpHandler implements PositionalGenerator {
      */
     @Override
     public PowerUp generateNewObject() {
+        // Randomly select either to use an extra points
+        // PowerUp or a clear regens PowerUp and create the object
         if(this.rand.nextBoolean()) {
             this.currentNewPowerup = this.newExtraPoints();
         } else {
             this.currentNewPowerup = this.newClearRegens();
         }
+
+        // For every PowerUp, check if a PowerUp is stored and if they intersect with the new PowerUp,
+        // if so, then re-run this function recursively
         for(PowerUp checkPowerup : this.powerUpArray) {
             if(checkPowerup != null && checkPowerup.intersects(this.currentNewPowerup)) {
                 this.currentNewPowerup.destroy();
                 this.currentNewPowerup = this.generateNewObject();
             }
         }
+
+        // For every Node, check if a Node is stored and if they intersect with the new PowerUp,
+        // if so, then re-run this function recursively
         for(Node checkNode : this.nodeGen.getNodeArray()) {
             if(checkNode != null && checkNode.intersects(this.currentNewPowerup)) {
                 this.currentNewPowerup.destroy();
                 this.currentNewPowerup = this.generateNewObject();
             }
         }
+
+        // Return the new power up if all checks pass
         return this.currentNewPowerup;
     }
 
@@ -116,6 +153,7 @@ public class PowerUpHandler implements PositionalGenerator {
      */
     @Override
     public void newGeneration() {
+        // For the number of PowerUps required, generate that many PowerUps
         for(int i = this.powerUpCount - 1; i >= 0; i--) {
             this.powerUpArray[i] = this.generateNewObject();
         }
@@ -125,11 +163,14 @@ public class PowerUpHandler implements PositionalGenerator {
      * Sequentially destroys all the PowerUp objects inside the powerUpArray and resets the array to an empty array.
      */
     public void resetPowerUpArray() {
+        // For every PowerUp, destroy it if it's not null
         for(PowerUp powerUp : this.powerUpArray) {
             if(powerUp != null) {
                 powerUp.destroy();
             }
         }
+
+        // Reset the PowerUp array to an empty array
         this.powerUpArray = new PowerUp[this.powerUpCount];
     }
 

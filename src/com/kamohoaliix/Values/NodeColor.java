@@ -1,7 +1,9 @@
 package com.kamohoaliix.Values;
 
 /**
- * This Enum stores the possible colours that Nodes can be
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       3.0.0
  */
 public enum NodeColor {
     red, green, blue, orange, purple, yellow

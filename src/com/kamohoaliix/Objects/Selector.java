@@ -4,10 +4,19 @@ import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
 /**
- * Class to display the selector that appears around a selected Node
+ * @author      Joshua, Boddy, joshua.boddy@city.ac.uk
+ * @version     3.0.0
+ * @since       2.0.0
  */
 public class Selector extends StaticBody {
+    /**
+     * World the object is contained in
+     */
     private World world;
+
+    /**
+     * The sprite of the object
+     */
     private AttachedImage sprite;
 
     /**
