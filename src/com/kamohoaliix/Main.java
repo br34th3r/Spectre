@@ -1,20 +1,14 @@
 package com.kamohoaliix;
 
-import city.cs.engine.SoundClip;
 import com.kamohoaliix.Controllers.*;
 import com.kamohoaliix.Environment.ControlPanel;
 import com.kamohoaliix.Environment.CustomWorld;
 import com.kamohoaliix.Objects.Player;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class Main {
-    public static SoundClip gameMusic;
-
     public static void main(String[] args) {
 
         // Create a Player Object to Store all Player Data

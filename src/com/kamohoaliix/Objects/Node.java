@@ -6,7 +6,12 @@ import org.jbox2d.common.Vec2;
 
 import java.awt.*;
 
+/**
+ * Node class that renders an individual node on the screen
+ * and handles it's color, position and connections.
+ */
 public class Node extends StaticBody {
+    // Define fields for world, view, sprite, x, y, radius, color and connections
     private World world;
     private UserView view;
     private AttachedImage sprite;
@@ -16,6 +21,16 @@ public class Node extends StaticBody {
     private NodeColor color;
     private int connections;
 
+    /**
+     * Stores the parameter values required for making
+     * the node as well as passing those values into
+     * the superclass and setting the Node's position.
+     * @param world the world in which the Node is to be displayed.
+     * @param view the view that contains the world in which the Node is to be displayed.
+     * @param x the x position of the Node.
+     * @param y the y position of the Node.
+     * @param radius the radius of the Node object in meters.
+     */
     public Node(World world, UserView view, float x, float y, float radius) {
         super(world, new CircleShape(radius));
         this.world = world;
@@ -27,8 +42,16 @@ public class Node extends StaticBody {
         this.connections = 0;
     }
 
+    /**
+     * Checks if the Node contains a certain x and y position on the screen.
+     * @param point the point that the function checks if is inside the node.
+     * @return boolean true if the node contains that position and false if it does not.
+     */
     public boolean containsPosition(Point point) {
+        // Converts the point into a readable Vec2 object that can be interpreted by the intersects() function
         Vec2 worldPosition = new Vec2(this.view.viewToWorld(point).x, this.view.viewToWorld(point).y + 1f);
+
+        // Uses the Vec2 position to check if there is an intersection between the node and the point
         if(this.intersects(worldPosition, 0.01f, 0.01f)) {
             return true;
         } else {
@@ -36,6 +59,10 @@ public class Node extends StaticBody {
         }
     }
 
+    /**
+     * Switch to handle the color of the node and assign the correct sprite.
+     * @param color enum value of the current Node's color.
+     */
     public void spriteColorHandler(NodeColor color) {
         switch(color) {
             case red:
@@ -63,6 +90,10 @@ public class Node extends StaticBody {
         }
     }
 
+    /**
+     * Setter method to assign the sprite.
+     * @param sprite the new AttachedImage object to become the new sprite.
+     */
     public void setSprite(AttachedImage sprite) {
         this.sprite = sprite;
     }
